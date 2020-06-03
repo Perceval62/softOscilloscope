@@ -16,21 +16,19 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    datasink.cpp \
     main.cpp \
     mainview.cpp \
     portcontroller.cpp \
-    serialport.cpp \
-    serialportqtimpl.cpp
+    serialportqtimpl.cpp \
+    waveformmodel.cpp
 
 HEADERS += \
-    datasink.h \
     inputobserver.h \
     mainview.h \
     portcontroller.h \
     portstrategy.h \
-    serialport.h \
-    serialportqtimpl.h
+    serialportqtimpl.h \
+    waveformmodel.h
 
 FORMS += \
     mainview.ui

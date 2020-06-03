@@ -1,17 +1,20 @@
 #include "mainview.h"
 #include "ui_mainview.h"
 
+#include <iostream>
 
-MainView::MainView(QWidget *parent)
-    : QWidget(parent)
+MainView::MainView(QWidget *parent, WaveFormModel * model)
+    : QWidget(parent),
+      InputObserver()
     , ui(new Ui::MainView)
 {
     ui->setupUi(this);
+    model->addListener(this);
 }
 
 void MainView::update()
 {
-    #warning To Implement !
+    std::cout << "Called back : D !" << std::endl;
 }
 
 MainView::~MainView()

@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include "inputobserver.h"
+#include "waveformmodel.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainView; }
@@ -13,7 +14,7 @@ class MainView : public QWidget, public InputObserver
     Q_OBJECT
 
 public:
-    MainView(QWidget *parent = nullptr);
+    MainView(QWidget *parent = nullptr, WaveFormModel * model = nullptr );
     void update() override;
     ~MainView();
 

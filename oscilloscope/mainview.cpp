@@ -61,7 +61,6 @@ MainView::MainView(QWidget *parent, WaveForm * newModel)
 void MainView::update()
 {
     auto newData = this->model->getPacket();
-
     graph->removeSeries(buffer);
     delete buffer;
     buffer = nullptr;

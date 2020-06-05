@@ -42,11 +42,11 @@ std::string WaveForm::name() const
 
 void WaveForm::update()
 {
-    this->bytes = getPacket();
+    this->bytes = this->source->readData();
     this->notifyListeners();
 }
 
 std::vector<unsigned char> * WaveForm::getPacket() const
 {
-    return this->source->readData();
+    return this->bytes;
 }

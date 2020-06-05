@@ -1,4 +1,4 @@
-QT       += core gui serialport
+QT       += core gui serialport charts
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -16,19 +16,20 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    dummyInput.cpp \
     main.cpp \
     mainview.cpp \
-    portcontroller.cpp \
+    portstrategy.cpp \
     serialportqtimpl.cpp \
-    waveformmodel.cpp
+    waveform.cpp
 
 HEADERS += \
-    inputobserver.h \
+    dummyInput.h \
     mainview.h \
-    portcontroller.h \
+    observer.h \
     portstrategy.h \
     serialportqtimpl.h \
-    waveformmodel.h
+    waveform.h
 
 FORMS += \
     mainview.ui

@@ -2,12 +2,19 @@
 
 #include <QApplication>
 
+#include "portstrategy.h"
+#include "dummyInput.h"
+#include "waveform.h"
+
 int main(int argc, char *argv[])
 {
-    WaveFormModel model;
     QApplication a(argc, argv);
+    auto port = (DummyInput *) PortStrategy::createPort(AvailableImpl::dummy, "yeet");
+    WaveForm model(port);
     MainView w(nullptr, &model);
+    port->notifyListeners();
     w.show();
-    model.notifyListeners();
     return a.exec();
 }
+
+

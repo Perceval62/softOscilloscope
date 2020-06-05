@@ -1,7 +1,7 @@
 #ifndef INPUTOBSERVER_H
 #define INPUTOBSERVER_H
 
-class InputObserver
+class Observer
 {
 public:
     virtual void update() = 0;

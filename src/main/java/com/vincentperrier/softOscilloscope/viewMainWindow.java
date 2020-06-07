@@ -16,7 +16,6 @@ public class viewMainWindow extends JFrame implements view {
 
     public void update()
     {
-        System.out.println("JFrame called back : D");
         this.g.update();
     }
 }

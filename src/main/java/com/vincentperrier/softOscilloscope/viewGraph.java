@@ -24,7 +24,6 @@ public class viewGraph extends JPanel implements view {
 
     public void update()
     {
-        System.out.println("graphview called back : D");
         this.repaint();
     }
 

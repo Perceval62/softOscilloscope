@@ -28,6 +28,7 @@ public class main{
         viewMainWindow view = new viewMainWindow(controller);
         model.addObserver(view);
         inputDummy in = new inputDummy(controller);
+        inputSerial testSerial = new inputSerial("bruh", 9600, controller);
 
         while(true) in.loopRead();
     }

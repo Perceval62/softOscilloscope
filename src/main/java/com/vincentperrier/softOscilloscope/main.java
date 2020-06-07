@@ -6,14 +6,14 @@ package com.vincentperrier.softOscilloscope;
 public class main{
 
     //Todo Initialize data model.
-    public static packet initializeModel()
+    public static modelPacket initializeModel()
     {
         float array[] = new float[100];
         for(int i = 0; i < 100; i++)
         {
             array[i] = 0.0f;
         }
-        return new packet(array);
+        return new modelPacket(array);
     }
 
     //Todo Initialize data controller.
@@ -23,13 +23,13 @@ public class main{
     public static void main(String args[])
     {
         System.out.println("Starting the program");
-        packet model = initializeModel();
-        packetController controller = new packetController(model);
-        windowFrame view = new windowFrame(controller);
+        modelPacket model = initializeModel();
+        controllerPacket controller = new controllerPacket(model);
+        viewMainWindow view = new viewMainWindow(controller);
         model.addObserver(view);
-        input in = new input(controller);
+        inputDummy in = new inputDummy(controller);
 
-        while(true) in.dummyLoopRead();
+        while(true) in.loopRead();
     }
 
 }

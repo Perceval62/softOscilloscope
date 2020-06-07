@@ -15,20 +15,20 @@ import java.util.Vector;
  * Usually, in an MVC application such as this one, the data model should
  * inherit from this abstract class.
  */
-public class observable {
-    protected Vector<observer> listOfObservers;
+public abstract class model {
+    protected Vector<view> listOfViews;
 
     /**
      * public class methods
      */
-    observable()
+    model()
     {
-        listOfObservers = new Vector<>();
+        listOfViews = new Vector<view>();
     }
 
-    public void addObserver(observer o)
+    public void addObserver(view o)
     {
-        if (o != null) {this.listOfObservers.add(o); }
+        if (o != null) {this.listOfViews.add(o); }
     }
 
     /**
@@ -36,7 +36,7 @@ public class observable {
      */
     protected void notifyObservers()
     {
-        for (observer i : listOfObservers ) {
+        for (view i : listOfViews) {
             i.update();
         }
     }

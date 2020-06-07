@@ -1,12 +1,10 @@
 package com.vincentperrier.softOscilloscope;
 
-import java.util.Vector;
-
-public class packet extends observable {
+public class modelPacket extends model {
 
     private float samplesBuffer[];
 
-    public packet(float array[])
+    public modelPacket(float array[])
     {
         super();
         this.samplesBuffer = array;
@@ -17,13 +15,13 @@ public class packet extends observable {
         return samplesBuffer.clone();
     }
 
-    public packet withSamples(float array[])
+    public modelPacket withSamples(float array[])
     {
         try{
             if(array != null)
             {
-                packet ret = new packet(array);
-                for(observer iter: this.listOfObservers)
+                modelPacket ret = new modelPacket(array);
+                for(view iter: this.listOfViews)
                 {
                     ret.addObserver(iter);
                 }

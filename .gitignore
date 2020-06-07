@@ -34,3 +34,5 @@
 #config files
 *.iml
 *.idea
+
+target/*

@@ -1,9 +1,9 @@
 package com.vincentperrier.softOscilloscope;
 
-public class packetController implements controller {
+public class controllerPacket implements controller {
 
-    packet model;
-    packetController(packet e)
+    modelPacket model;
+    controllerPacket(modelPacket e)
     {
         this.model = e;
     }

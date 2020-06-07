@@ -1,13 +1,13 @@
 package com.vincentperrier.softOscilloscope;
 
-public class input {
+public class inputDummy {
     controller dataDestionation;
-    public input(controller c)
+    public inputDummy(controller c)
     {
         this.dataDestionation = c;
     }
 
-    public void dummyLoopRead()
+    public void loopRead()
     {
         for(int i = 0; i < 5; i++)
         {

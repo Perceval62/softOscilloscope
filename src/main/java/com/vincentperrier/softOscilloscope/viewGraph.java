@@ -3,9 +3,9 @@ package com.vincentperrier.softOscilloscope;
 import javax.swing.*;
 import java.awt.*;
 
-public class graphView extends JPanel implements observer{
+public class viewGraph extends JPanel implements view {
     controller controller;
-    public graphView(controller c)
+    public viewGraph(controller c)
     {
         try
         {
@@ -32,6 +32,8 @@ public class graphView extends JPanel implements observer{
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         float [] buf = this.controller.getSamples();
+
+        g.drawRect(0,0, this.getWidth(), this.getHeight());
 
         int padding = 40;
         int yOffset = (this.getHeight() / 2);

@@ -1,14 +1,13 @@
 package com.vincentperrier.softOscilloscope;
 
 import javax.swing.*;
-import java.awt.*;
 
-public class windowFrame extends JFrame implements observer {
-    graphView g;
+public class viewMainWindow extends JFrame implements view {
+    viewGraph g;
 
-    windowFrame(controller c)
+    viewMainWindow(controller c)
     {
-        this.g = new graphView(c);
+        this.g = new viewGraph(c);
         this.setVisible(true);
         this.setSize(400, 400);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);

@@ -32,19 +32,22 @@ public class viewGraph extends JPanel implements view {
         super.paintComponent(g);
         float [] buf = this.controller.getSamples();
 
-        g.drawRect(0,0, this.getWidth(), this.getHeight());
+        g.fillRect(0,0, this.getWidth()-1, this.getHeight()-1);
+        g.setColor(Color.BLACK);
+        g.fillPolygon();
 
-        int padding = 40;
+        int padding = 20;
         int yOffset = (this.getHeight() / 2);
-        int inter = this.getWidth() / buf.length;
+        int inter = this.getWidth() /(buf.length + padding);
         int previousX = padding;
         int previousY = (int)buf[0] + yOffset;
+
         int currentX = 0;
         int currentY = 0;
 
         for(int i = 1; i < buf.length; i++)
         {
-            currentX = i * inter + padding;
+            currentX = (i * inter) + padding;
             currentY = (int)buf[i] + (this.getHeight() / 2);
             g.drawLine(previousX, previousY, currentX, currentY);
             previousX = currentX;

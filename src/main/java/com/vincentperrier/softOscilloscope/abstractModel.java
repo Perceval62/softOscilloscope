@@ -11,31 +11,30 @@ import java.util.Vector;
  * This abstract class represents an item that can be observed.
  * Calling addObserver and notifyObserver on a children class
  * will result in the observer pattern behavior.
- *
+ * <p>
  * Usually, in an MVC application such as this one, the data model should
  * inherit from this abstract class.
  */
-public abstract class model {
+public abstract class abstractModel {
     protected Vector<view> listOfViews;
 
     /**
      * public class methods
      */
-    model()
-    {
+    abstractModel() {
         listOfViews = new Vector<view>();
     }
 
-    public void addObserver(view o)
-    {
-        if (o != null) {this.listOfViews.add(o); }
+    public void addObserver(view o) {
+        if (o != null) {
+            this.listOfViews.add(o);
+        }
     }
 
     /**
      * protected class methods
      */
-    protected void notifyObservers()
-    {
+    protected void notifyObservers() {
         for (view i : listOfViews) {
             i.update();
         }

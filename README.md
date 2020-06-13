@@ -6,12 +6,6 @@ Vincent Perrier 2020
 
 ## Outline
 
-Modern day hardware is amazingly fast. Even a tiny raspberry pi is able to 
-do billions of calculations per second, run a graphical interface and playback audio.
-With many features such as these, doing basic arithmetics and 
-graphing a few hundred samples should not be an insurmountable 
-task. 
-
 Any hardware hobbyist knows the troubleshooting potential of
 an oscilloscope. 
 They're essential to any hardware project that requires more than a few LEDs. 
@@ -20,7 +14,11 @@ can be quite costly.
 An oscilloscope works by reading a bunch of samples with an Analog 
 to Digital converter (ADC), then, displays them on a screen with different zoom options. 
 
-This can all easily be done with any modern computer and even low power computing devices.
+Modern day hardware is amazingly fast. Even a tiny raspberry pi is able to 
+do billions of calculations per second, run a graphical interface and playback audio.
+With many features such as these, doing basic arithmetics and 
+graphing a few hundred samples should not be an insurmountable 
+task. 
 
 This is what this project aims to achieve:
 * Having a GUI interface to inspect a given waveform.
@@ -35,3 +33,7 @@ Here is the role of a few classes:
 requets for updates by the views.
 * viewGraph: wait for changes on the modelPacket and update the graph according to the info given by controllerPacker.
 * inputSerial: open a serial port and reads it when data is available, pushes the data to the controller for it to be handled.
+
+## Dependencies
+The project depends on the Java standard library and the swing suite of components. For the first version of the project, serial operations
+are done with [the jSerialComm library](https://fazecast.github.io/jSerialComm/).

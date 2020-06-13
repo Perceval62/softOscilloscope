@@ -25,7 +25,6 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
     <build>
         <plugins>
             <plugin>
@@ -49,7 +48,7 @@
                     <archive>
                         <manifest>
                             <mainClass>
-                                com.vincentperrier.softOscilloscope
+                                com.vincentperrier.softOscilloscope.softOscilloscope
                             </mainClass>
                         </manifest>
                     </archive>

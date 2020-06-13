@@ -22,7 +22,10 @@ public class modelPacket extends abstractModel {
 
     public modelPacket(float array[]) {
         super();
-        this.samplesBuffer = array;
+        if(array != null)
+        {
+            this.samplesBuffer = array.clone();
+        }
     }
 
     public float[] getPacket() {

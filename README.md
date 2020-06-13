@@ -33,6 +33,7 @@ Here is the role of a few classes:
 requets for updates by the views.
 * viewGraph: wait for changes on the modelPacket and update the graph according to the info given by controllerPacker.
 * inputSerial: open a serial port and reads it when data is available, pushes the data to the controller for it to be handled.
+![UML diagram of the application](softOscilloscopeUML.png)
 
 ## Dependencies
 The project depends on the Java standard library and the swing suite of components. For the first version of the project, serial operations

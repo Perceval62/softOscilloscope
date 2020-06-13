@@ -3,8 +3,16 @@ package com.vincentperrier.softOscilloscope;
 public class inputDummy {
     controller dataDestionation;
 
-    public inputDummy(controller c) {
-        this.dataDestionation = c;
+    public inputDummy(controller c) throws Exception
+    {
+        if(c != null)
+        {
+            this.dataDestionation = c;
+        }
+        else
+        {
+            throw new Exception("Cannot assign a null value as a controller");
+        }
     }
 
     public void loopRead() {
@@ -18,7 +26,6 @@ public class inputDummy {
                     array[x] = array[x] * 10 * i;
                 }
                 this.dataDestionation.treatIncomingSamples(array);
-                System.out.println("looping");
             } catch (Exception e) {
                 e.printStackTrace();
             }

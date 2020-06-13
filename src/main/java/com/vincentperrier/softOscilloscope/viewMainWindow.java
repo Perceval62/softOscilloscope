@@ -8,7 +8,7 @@ public class viewMainWindow extends JFrame implements view {
     viewMainWindow(controller c) {
         this.g = new viewGraph(c);
         this.setVisible(true);
-        this.setBounds(0,0 ,1020, 400);
+        this.setBounds(0,0 ,1100, 400);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.add(g);
 

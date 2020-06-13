@@ -24,13 +24,17 @@ public class softOscilloscope {
         controllerPacket controller = new controllerPacket(model);
         viewMainWindow view = new viewMainWindow(controller);
         model.addObserver(view);
-        inputDummy in = new inputDummy(controller);
+        try {
+            inputDummy in = new inputDummy(controller);
+            Thread t1 = new Thread(() -> {
+                while (true) in.loopRead();
+            });
+            t1.run();
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
         //inputSerial testSerial = new inputSerial("bruh", 9600, controller);
-
-        Thread t1 = new Thread(() -> {
-            while (true) in.loopRead();
-        });
-        t1.run();
     }
 
 }

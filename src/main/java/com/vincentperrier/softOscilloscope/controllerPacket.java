@@ -4,7 +4,7 @@ public class controllerPacket implements controller {
 
     modelPacket model;
 
-    controllerPacket(modelPacket e) {
+    public controllerPacket(modelPacket e) {
         this.model = e;
     }
 
@@ -15,5 +15,4 @@ public class controllerPacket implements controller {
     public float[] getSamples() {
         return this.model.getPacket();
     }
-
 }

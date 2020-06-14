@@ -20,6 +20,10 @@ import com.fazecast.jSerialComm.SerialPort;
 import com.fazecast.jSerialComm.SerialPortDataListener;
 import com.fazecast.jSerialComm.SerialPortEvent;
 
+import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.Vector;
+
 import static com.fazecast.jSerialComm.SerialPort.LISTENING_EVENT_DATA_RECEIVED;
 
 public class inputSerial implements input {
@@ -31,28 +35,22 @@ public class inputSerial implements input {
 
     inputSerial(String portName, int baudRate, controller c) {
         try {
+            System.out.println("building port");
             this.p = SerialPort.getCommPort(portName);
             this.controller = c;
             this.baudRate = baudRate;
             this.name = name;
             this.p.setBaudRate(baudRate);
-            p.addDataListener(new SerialPortDataListener() {
-                @Override
-                public int getListeningEvents() {
-                    return LISTENING_EVENT_DATA_RECEIVED;
-                }
-
-                @Override
-                public void serialEvent(SerialPortEvent event) {
-                    byte[] tmp = event.getReceivedData();
-                    float[] ret = new float[tmp.length];
-                    for (int i = 0; i < tmp.length; i++) {
-                        ret[i] = (float) tmp[i];
-                    }
-                    controller.treatIncomingSamples(ret);
-                }
-            });
-            p.openPort();
+            this.p.clearRTS();
+            this.p.clearDTR();
+            if(p.openPort())
+            {
+                System.out.println("Port opened");
+            }
+            else
+            {
+                System.out.println("Could not open the given com port");
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -60,6 +58,17 @@ public class inputSerial implements input {
 
     @Override
     public void loopRead() {
+        while(this.p.bytesAvailable() < 1000);
+        byte input[] = new byte[this.p.bytesAvailable()];
+
+        this.p.readBytes(input, input.length);
+        float packet[] = new float[input.length];
+        for(int i = 0; i < input.length; i++)
+        {
+            packet[i] = input[i] / 10.0f;
+            System.out.println(packet[i]);
+        }
+        this.controller.treatIncomingSamples(packet);
     }
 
     public inputSerial withBaudRate(int newBaud) {

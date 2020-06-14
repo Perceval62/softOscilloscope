@@ -60,7 +60,9 @@ public class softOscilloscope {
         model.addObserver(view);
         try {
             inputSerial testSerial = new inputSerial("COM6", 9600, controller);
-            testSerial.loopRead();
+            while(true) {
+                testSerial.loopRead();
+            }
         }catch (Exception e)
         {
             e.printStackTrace();

@@ -49,6 +49,8 @@ public class viewGraph extends JPanel implements view {
         g.fillRect(0, 0, this.getWidth() - 1, this.getHeight() - 1);
 
         int padding = 20;
+        int scaling = 10;
+
         int yOffset = (this.getHeight() / 2);
         int inter = this.getWidth() / (buf.length + padding);
         int previousX = padding;
@@ -64,9 +66,9 @@ public class viewGraph extends JPanel implements view {
         //PaintComponent use reverse coordinates so we need to reverse the samples
         //signs
         for (int i = 1; i < buf.length; i++) {
-            buf[i] = -buf[i];
+            buf[i] = -buf[i] * scaling;
             currentX = (i * inter) + padding;
-            currentY = (int) buf[i] + (this.getHeight() / 2);
+            currentY = ((int) buf[i] + (this.getHeight() / 2));
             g.drawLine(previousX, previousY, currentX, currentY);
             previousX = currentX;
             previousY = currentY;

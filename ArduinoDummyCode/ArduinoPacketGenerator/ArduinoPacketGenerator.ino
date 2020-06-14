@@ -7,13 +7,12 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  unsigned char dummySamples[1000];
+  char dummySamples[1000];
   for(int i = 0; i < 1000; i++)
   {
     double work = 2*M_PI*i/100;
     dummySamples[i] = (10 * sin(work)) + 2;
-    Serial.print(dummySamples[i]);
-    Serial.print(";");
+    Serial.print((char)dummySamples[i]);
   }
   delay(1000);
 }

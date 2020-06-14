@@ -21,7 +21,7 @@ package com.vincentperrier.softOscilloscope;
  */
 public class softOscilloscope {
 
-    //Todo Initialize data model.
+    //Initialize basic data
     public static modelPacket initializeModel() {
         float array[] = new float[100];
         for (int i = 0; i < 100; i++) {
@@ -30,11 +30,9 @@ public class softOscilloscope {
         return new modelPacket(array);
     }
 
-    //Todo Initialize data controller.
-
-    //Todo Initialize data view.
-
-    public static void main(String args[]) {
+    //RunTest
+    public static void runExample()
+    {
         System.out.println("Starting the program");
         modelPacket model = initializeModel();
         controllerPacket controller = new controllerPacket(model);
@@ -50,7 +48,30 @@ public class softOscilloscope {
         {
             e.printStackTrace();
         }
-        //inputSerial testSerial = new inputSerial("bruh", 9600, controller);
+    }
+
+    //RunTest
+    public static void runSerialExample()
+    {
+        System.out.println("Starting the program");
+        modelPacket model = initializeModel();
+        controllerPacket controller = new controllerPacket(model);
+        viewMainWindow view = new viewMainWindow(controller);
+        model.addObserver(view);
+        try {
+            inputSerial testSerial = new inputSerial("COM6", 9600, controller);
+            testSerial.loopRead();
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    //Todo Initialize data view.
+
+    public static void main(String args[]) {
+        //softOscilloscope.runExample();
+        runSerialExample();
     }
 
 }

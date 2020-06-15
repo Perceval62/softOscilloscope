@@ -47,4 +47,14 @@ public class inputDummy {
             }
         }
     }
+
+    public void setName(String name)
+    {
+
+    }
+
+    public void setBaudRate(int rate)
+    {
+
+    }
 }

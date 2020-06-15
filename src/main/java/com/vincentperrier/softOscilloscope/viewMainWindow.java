@@ -17,17 +17,54 @@
 package com.vincentperrier.softOscilloscope;
 
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 public class viewMainWindow extends JFrame implements view {
     viewGraph g;
+    JTextArea comPortName;
+    input sourceOfData;
+    JButton apply;
+    JSlider slider;
 
-    viewMainWindow(controller c) {
+    viewMainWindow(controller c, input in) {
+        this.sourceOfData = in;
         this.g = new viewGraph(c);
-        this.setVisible(true);
+        this.comPortName = new JTextArea();
+        this.apply = new JButton("apply");
+        this.apply.setPreferredSize(new Dimension(100, 20));
+        this.slider = new JSlider();
+
+        this.apply.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                sourceOfData.setName(comPortName.getText());
+            }
+        });
+
         this.setBounds(0,0 ,1100, 400);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        this.add(g);
 
+        JPanel northPanel = new JPanel();
+        JLabel serialNameLabel = new JLabel("Com port name:");
+        serialNameLabel.setPreferredSize(new Dimension(100, 100));
+        northPanel.add(new JLabel("Com port:"), BorderLayout.WEST);
+        comPortName.setPreferredSize(new Dimension(100, 20));
+        northPanel.add(comPortName, BorderLayout.CENTER);
+        northPanel.add(this.apply, BorderLayout.EAST);
+
+        JPanel visualPane = new JPanel();
+        visualPane.add(new JLabel("Scaling"));
+        visualPane.add(this.slider);
+
+        this.getContentPane().add(northPanel, BorderLayout.PAGE_START);
+        this.getContentPane().add(visualPane, BorderLayout.PAGE_END);
+        this.getContentPane().add(g, BorderLayout.CENTER);
+
+        this.setVisible(true);
     }
 
     public void update() {

@@ -32,32 +32,77 @@ public class inputSerial implements input {
     controller controller;
     String name;
     int baudRate;
+    boolean shouldReset = false;
+
+    public void setName(String name)
+    {
+        try {
+            this.name = name;
+            reinitialize();
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public void setBaudRate(int rate)
+    {
+        try {
+            this.baudRate = rate;
+            reinitialize();
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    private void reinitialize() throws Exception
+    {
+        if(this.p != null) {
+            this.p.closePort();
+        }
+        this.initialize();
+    }
+
+    private void initialize() throws Exception
+    {
+        System.out.println("building port");
+        this.p = SerialPort.getCommPort(this.name);
+        this.baudRate = baudRate;
+        this.name = name;
+        this.p.setBaudRate(baudRate);
+        this.p.clearRTS();
+        this.p.clearDTR();
+        if(p.openPort())
+        {
+            System.out.println("Port opened");
+        }
+    }
 
     inputSerial(String portName, int baudRate, controller c) {
-        try {
-            System.out.println("building port");
-            this.p = SerialPort.getCommPort(portName);
-            this.controller = c;
+        try{
+            this.name = portName;
             this.baudRate = baudRate;
-            this.name = name;
-            this.p.setBaudRate(baudRate);
-            this.p.clearRTS();
-            this.p.clearDTR();
-            if(p.openPort())
-            {
-                System.out.println("Port opened");
-            }
-            else
-            {
-                System.out.println("Could not open the given com port");
-            }
-        } catch (Exception e) {
+            this.controller = c;
+            initialize();
+        }
+        catch(Exception e) {
             e.printStackTrace();
         }
     }
 
     @Override
     public void loopRead() {
+        /*if (shouldReset == true)
+        {
+            try {
+                this.reinitialize();
+            }catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+        }*/
+
         while(this.p.bytesAvailable() < 1000);
         byte input[] = new byte[this.p.bytesAvailable()];
 
@@ -66,18 +111,8 @@ public class inputSerial implements input {
         for(int i = 0; i < input.length; i++)
         {
             packet[i] = input[i] / 10.0f;
-            System.out.println(packet[i]);
         }
         this.controller.treatIncomingSamples(packet);
-    }
-
-    public inputSerial withBaudRate(int newBaud) {
-        this.p.closePort();
-        inputSerial ret = new inputSerial(this.name, this.baudRate, this.controller);
-        ret.p = this.p;
-        ret.baudRate = newBaud;
-        ret.p.setBaudRate(newBaud);
-        this.p.openPort(100);
-        return ret;
+        System.out.println("loopRead");
     }
 }

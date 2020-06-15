@@ -23,6 +23,8 @@ import java.awt.*;
 public class viewGraph extends JPanel implements view {
     controller controller;
 
+    int scaling = 10;
+
     public viewGraph(controller c) {
         try {
             if (c != null) {
@@ -34,6 +36,11 @@ public class viewGraph extends JPanel implements view {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void setScaling(int newValue)
+    {
+        this.scaling = newValue;
     }
 
     public void update() {
@@ -49,7 +56,6 @@ public class viewGraph extends JPanel implements view {
         g.fillRect(0, 0, this.getWidth() - 1, this.getHeight() - 1);
 
         int padding = 20;
-        int scaling = 10;
 
         int yOffset = (this.getHeight() / 2);
         int inter = this.getWidth() / (buf.length + padding);

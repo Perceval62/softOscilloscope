@@ -36,10 +36,10 @@ public class softOscilloscope {
         System.out.println("Starting the program");
         modelPacket model = initializeModel();
         controllerPacket controller = new controllerPacket(model);
-        viewMainWindow view = new viewMainWindow(controller);
-        model.addObserver(view);
         try {
             inputDummy in = new inputDummy(controller);
+            viewMainWindow view = new viewMainWindow(controller, (input) in);
+            model.addObserver(view);
             Thread t1 = new Thread(() -> {
                 while (true) in.loopRead();
             });
@@ -56,12 +56,14 @@ public class softOscilloscope {
         System.out.println("Starting the program");
         modelPacket model = initializeModel();
         controllerPacket controller = new controllerPacket(model);
-        viewMainWindow view = new viewMainWindow(controller);
-        model.addObserver(view);
         try {
-            inputSerial testSerial = new inputSerial("COM6", 9600, controller);
-            while(true) {
+            inputSerial testSerial = new inputSerial("", 9600, controller);
+            viewMainWindow view = new viewMainWindow(controller, testSerial);
+            model.addObserver(view);
+            while (true)
+            {
                 testSerial.loopRead();
+                System.out.println("Loop");
             }
         }catch (Exception e)
         {

@@ -42,6 +42,9 @@ public class viewGraph extends JPanel implements view {
     {
         this.scaling = newValue;
     }
+    public int getScaling(){
+        return this.scaling;
+    }
 
     public void update() {
         this.repaint();

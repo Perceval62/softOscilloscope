@@ -17,6 +17,8 @@
 package com.vincentperrier.softOscilloscope;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -58,6 +60,15 @@ public class viewMainWindow extends JFrame implements view {
 
         JPanel visualPane = new JPanel();
         visualPane.add(new JLabel("Scaling"));
+        this.slider.setMaximum(1);
+        this.slider.setMaximum(50);
+        this.slider.setValue(g.getScaling());
+        this.slider.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                g.setScaling(slider.getValue());
+            }
+        });
         visualPane.add(this.slider);
 
         this.getContentPane().add(northPanel, BorderLayout.PAGE_START);

@@ -93,25 +93,29 @@ public class inputSerial implements input {
 
     @Override
     public void loopRead() {
-        /*if (shouldReset == true)
-        {
-            try {
-                this.reinitialize();
-            }catch (Exception e)
-            {
-                e.printStackTrace();
+        try {
+            if (this.p.isOpen() == false) {
+                //Get out of the function after a delay to not waste cpu cycles
+                Thread.sleep(1000);
+                return;
             }
-        }*/
 
-        while(this.p.bytesAvailable() < 1000);
-        byte input[] = new byte[this.p.bytesAvailable()];
+            while (this.p.bytesAvailable() < 1000)
+            {
+                //A loop that does nothing uses way too much cpu.
+                Thread.sleep(10);
+            };
+            byte input[] = new byte[this.p.bytesAvailable()];
 
-        this.p.readBytes(input, input.length);
-        float packet[] = new float[input.length];
-        for(int i = 0; i < input.length; i++)
+            this.p.readBytes(input, input.length);
+            float packet[] = new float[input.length];
+            for (int i = 0; i < input.length; i++) {
+                packet[i] = input[i] / 10.0f;
+            }
+            this.controller.treatIncomingSamples(packet);
+        }catch (Exception e)
         {
-            packet[i] = input[i] / 10.0f;
+            e.printStackTrace();
         }
-        this.controller.treatIncomingSamples(packet);
     }
 }

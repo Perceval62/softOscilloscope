@@ -22,28 +22,34 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+
 
 public class viewMainWindow extends JFrame implements view {
-    viewGraph g;
-    JTextArea comPortName;
+    viewGraph graph;
+    JTextField portNameTextField;
     input sourceOfData;
-    JButton apply;
+    JButton applyButton;
     JSlider slider;
 
     viewMainWindow(controller c, input in) {
         this.sourceOfData = in;
-        this.g = new viewGraph(c);
-        this.comPortName = new JTextArea();
-        this.apply = new JButton("apply");
-        this.apply.setPreferredSize(new Dimension(100, 20));
+        this.graph = new viewGraph(c);
+        this.portNameTextField = new JTextField();
+        this.applyButton = new JButton("apply");
+        this.applyButton.setPreferredSize(new Dimension(100, 20));
         this.slider = new JSlider();
 
-        this.apply.addActionListener(new ActionListener() {
+        this.applyButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                sourceOfData.setName(comPortName.getText());
+                sourceOfData.setName(portNameTextField.getText());
+            }
+        });
+
+        this.portNameTextField.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                sourceOfData.setName(portNameTextField.getText());
             }
         });
 
@@ -54,31 +60,31 @@ public class viewMainWindow extends JFrame implements view {
         JLabel serialNameLabel = new JLabel("Com port name:");
         serialNameLabel.setPreferredSize(new Dimension(100, 100));
         northPanel.add(new JLabel("Com port:"), BorderLayout.WEST);
-        comPortName.setPreferredSize(new Dimension(100, 20));
-        northPanel.add(comPortName, BorderLayout.CENTER);
-        northPanel.add(this.apply, BorderLayout.EAST);
+        portNameTextField.setPreferredSize(new Dimension(100, 20));
+        northPanel.add(portNameTextField, BorderLayout.CENTER);
+        northPanel.add(this.applyButton, BorderLayout.EAST);
 
         JPanel visualPane = new JPanel();
         visualPane.add(new JLabel("Scaling"));
         this.slider.setMaximum(1);
-        this.slider.setMaximum(50);
-        this.slider.setValue(g.getScaling());
+        this.slider.setMaximum(80);
+        this.slider.setValue(graph.getScaling());
         this.slider.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                g.setScaling(slider.getValue());
+                graph.setScaling(slider.getValue());
             }
         });
         visualPane.add(this.slider);
 
         this.getContentPane().add(northPanel, BorderLayout.PAGE_START);
         this.getContentPane().add(visualPane, BorderLayout.PAGE_END);
-        this.getContentPane().add(g, BorderLayout.CENTER);
-
+        this.getContentPane().add(graph, BorderLayout.CENTER);
+        this.setTitle("Soft Oscilloscope V 0.1");
         this.setVisible(true);
     }
 
     public void update() {
-        this.g.update();
+        this.graph.update();
     }
 }

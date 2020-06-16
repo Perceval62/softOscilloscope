@@ -63,7 +63,6 @@ public class softOscilloscope {
             while (true)
             {
                 testSerial.loopRead();
-                System.out.println("Loop");
             }
         }catch (Exception e)
         {

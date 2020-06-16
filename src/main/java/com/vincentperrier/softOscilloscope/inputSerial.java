@@ -113,6 +113,5 @@ public class inputSerial implements input {
             packet[i] = input[i] / 10.0f;
         }
         this.controller.treatIncomingSamples(packet);
-        System.out.println("loopRead");
     }
 }

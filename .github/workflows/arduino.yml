@@ -19,7 +19,9 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    - uses: actions/checkout@v1
-    - name: compile arduino
-      uses: Legion2/arduino-builder-action@v2.0.0
+      - name: Setup Arduino CLI
+        uses: arduino/setup-arduino-cli@v1.0.
+        with:
+          script: arduino-cli compile      
+
         

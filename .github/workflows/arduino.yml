@@ -1,7 +1,7 @@
 # This is a basic workflow to help you get started with Actions
 
 name: Arduino
-
+runs-on: ubuntu-latest
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the master branch
 on:
@@ -13,15 +13,17 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   build:
-  - name: Compile arduino:
-    runs-on: ubuntu-latest
-    uses: arduino/setup-arduéino-cli@v1.0.0
-    with:
-    - uses: actions/checkout@master
-    - run: |
-        mkdir -p "$HOME/Arduino/libraries"
-        ln -s "$PWD" "$HOME/Arduino/libraries/."
-    - run: |
-        arduino-cli core update-index
-        arduino-cli core install arduino:avr@1.8.2
-    - run: arduino-cli compile --fqbn arduino:avr:uno ./arduino/ArduinoPacketGenerator/ArduinoPacketGenerator.ino
+    steps:
+      - name: checkout
+        uses: actions/checkout@master
+        
+      - name: Setup Arduino CLI
+        uses: arduino/setup-arduino-cli@v1.0.0
+
+      - name: install platform
+      - run: |
+         arduino-cli core update-index
+         arduino-cli core install arduino:avr@1.8.2
+         
+      - name: Compile Sketch
+        run: arduino-cli compile --fqbn arduino:avr:uno ./arduino/ArduinoPacketGenerator/ArduinoPacketGenerator.ino

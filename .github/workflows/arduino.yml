@@ -26,4 +26,4 @@ jobs:
          arduino-cli core install arduino:avr@1.8.2
          
       - name: Compile Sketch
-        run: arduino-cli compile --fqbn arduino:avr:uno ./arduino/ArduinoPacketGenerator/ArduinoPacketGenerator.ino
+      - run: arduino-cli compile --fqbn arduino:avr:uno ./arduino/ArduinoPacketGenerator/ArduinoPacketGenerator.ino

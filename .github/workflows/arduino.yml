@@ -19,9 +19,7 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - name: Setup Arduino CLI
-        uses: arduino/setup-arduino-cli@v1.0.
-        with:
-          script: arduino-cli compile ArduinoPacketGenerator.ino
-
+    - name: Run arduino-builder
+      uses: Legion2/arduino-builder-action@v2.0.0
+      sketchDirectory: arduino/ArduinoPacketGenerator/
         

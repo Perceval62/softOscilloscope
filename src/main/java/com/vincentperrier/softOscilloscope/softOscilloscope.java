@@ -16,6 +16,8 @@
 */
 package com.vincentperrier.softOscilloscope;
 
+import javax.swing.*;
+
 /**
  * Main class of the soft oscilloscope project
  */
@@ -31,8 +33,7 @@ public class softOscilloscope {
     }
 
     //RunTest
-    public static void runExample()
-    {
+    public static void runExample() {
         System.out.println("Starting the program");
         modelPacket model = initializeModel();
         controllerPacket controller = new controllerPacket(model);
@@ -51,8 +52,7 @@ public class softOscilloscope {
     }
 
     //RunTest
-    public static void runSerialExample()
-    {
+    public static void runSerialExample() {
         System.out.println("Starting the program");
         modelPacket model = initializeModel();
         controllerPacket controller = new controllerPacket(model);
@@ -73,6 +73,15 @@ public class softOscilloscope {
     //Todo Initialize data view.
 
     public static void main(String args[]) {
+        try {
+            //This line makes the SWING made UI look more like native apps.
+            // e.g on Windows 10 the application will look native
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
         //softOscilloscope.runExample();
         runSerialExample();
     }

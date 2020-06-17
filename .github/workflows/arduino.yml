@@ -12,6 +12,7 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
+  build:
   - name: Compile arduino:
     runs-on: ubuntu-latest
     uses: arduino/setup-arduéino-cli@v1.0.0

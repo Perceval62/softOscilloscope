@@ -12,18 +12,15 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
+  - name: Compile arduino:
     runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
-    steps:
-      - uses: actions/checkout@master
-      - run: |
-          mkdir -p "$HOME/Arduino/libraries"
-          ln -s "$PWD" "$HOME/Arduino/libraries/."
-      - run: |
-          arduino-cli core update-index
-          arduino-cli core install arduino:avr@1.8.2
-      - run: arduino-cli compile --fqbn arduino:avr:uno ./arduino/ArduinoPacketGenerator/ArduinoPacketGenerator.ino
+    uses: arduino/setup-arduéino-cli@v1.0.0
+    with:
+    - uses: actions/checkout@master
+    - run: |
+        mkdir -p "$HOME/Arduino/libraries"
+        ln -s "$PWD" "$HOME/Arduino/libraries/."
+    - run: |
+        arduino-cli core update-index
+        arduino-cli core install arduino:avr@1.8.2
+    - run: arduino-cli compile --fqbn arduino:avr:uno ./arduino/ArduinoPacketGenerator/ArduinoPacketGenerator.ino

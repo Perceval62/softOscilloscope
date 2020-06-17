@@ -22,6 +22,6 @@ jobs:
       - name: Setup Arduino CLI
         uses: arduino/setup-arduino-cli@v1.0.
         with:
-          script: arduino-cli compile      
+          script: arduino-cli compile ArduinoPacketGenerator.ino
 
         

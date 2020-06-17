@@ -19,7 +19,11 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    - name: Run arduino-builder
-      uses: Legion2/arduino-builder-action@v2.0.0
-      sketchDirectory: arduino/ArduinoPacketGenerator/
-        
+      - uses: actions/checkout@master
+      - run: |
+          mkdir -p "$HOME/Arduino/libraries"
+          ln -s "$PWD" "$HOME/Arduino/libraries/."
+      - run: |
+          arduino-cli core update-index
+          arduino-cli core install arduino:avr@1.8.2
+      - run: arduino-cli compile --fqbn arduino:avr:uno ./arduino/ArduinoPacketGenerator/ArduinoPacketGenerator.ino

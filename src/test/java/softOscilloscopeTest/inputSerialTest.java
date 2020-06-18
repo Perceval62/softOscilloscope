@@ -43,6 +43,14 @@ class inputSerialTest {
         //A name shouldn't contain spaces
         final String nullRef = null;
         assertThrows(Exception.class, () -> testSubject.setName(nullRef));
+
+        String validName = "COM5";
+        testSubject.setName(validName);
+        assertEquals(validName, testSubject.getName());
+
+        validName = "/dev/ttyACM0";
+        testSubject.setName(validName);
+        assertEquals(validName, testSubject.getName());
     }
 
     @Test

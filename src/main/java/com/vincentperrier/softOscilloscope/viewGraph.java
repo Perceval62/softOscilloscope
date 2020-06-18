@@ -79,7 +79,7 @@ public class viewGraph extends JPanel implements view {
         int padding = 20;
 
         int yOffset = (this.getHeight() / 2);
-        int inter = this.getWidth() / (buf.length + padding);
+        int inter = this.getWidth() / (buf.length);
         int previousX = padding;
         int previousY = (int) buf[0] + yOffset;
 
@@ -90,9 +90,9 @@ public class viewGraph extends JPanel implements view {
         g.drawLine(1, (this.getHeight() / 2), this.getWidth()-1, (this.getHeight() / 2));
         g.drawLine(padding, 1, padding, this.getHeight()-1);
         g.setColor(Color.BLACK);
+
         //PaintComponent use reverse coordinates so we need to reverse the samples
         //signs
-
         float[] amplifiedBuffer = new float[buf.length];
         for (int i = 1; i < buf.length; i++) {
             amplifiedBuffer[i] = -buf[i] * scaling;

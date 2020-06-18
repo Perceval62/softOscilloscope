@@ -40,6 +40,12 @@ public class inputSerial implements input {
         {
             name = "";
         }
+
+        if(name.contains(" "))
+        {
+            name = "";
+        }
+
         try {
             this.name = name;
             reinitialize();

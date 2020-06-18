@@ -18,6 +18,10 @@ package com.vincentperrier.softOscilloscope;
 
 public interface input {
     public void loopRead();
+
     public void setName(String name);
     public void setBaudRate(int rate);
+
+    public String getName();
+    public int getBaudRate();
 }

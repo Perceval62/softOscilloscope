@@ -56,6 +56,18 @@ public class inputSerial implements input {
         }
     }
 
+    public String getName()
+    {
+        String ret = new String (name);
+        return ret;
+    }
+
+    public int getBaudRate()
+    {
+        int ret = this.baudRate;
+        return ret;
+    }
+
     private void reinitialize() throws Exception
     {
         if(this.p != null) {
@@ -79,7 +91,7 @@ public class inputSerial implements input {
         }
     }
 
-    inputSerial(String portName, int baudRate, controller c) {
+    public inputSerial(String portName, int baudRate, controller c) {
         try{
             this.name = portName;
             this.baudRate = baudRate;

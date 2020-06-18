@@ -36,6 +36,10 @@ public class inputSerial implements input {
 
     public void setName(String name)
     {
+        if( !name.contains("COM") || !name.contains("dev/tty"))
+        {
+            name = "";
+        }
         try {
             this.name = name;
             reinitialize();

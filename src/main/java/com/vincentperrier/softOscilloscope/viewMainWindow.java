@@ -34,6 +34,7 @@ public class viewMainWindow extends JFrame implements view {
 
     JButton applyButton;
     JButton pauseButton;
+    JButton exportCSVButton;
 
     JSlider YscalingSlider;
 
@@ -45,7 +46,6 @@ public class viewMainWindow extends JFrame implements view {
 
     private void initializeInterface()
     {
-
         this.portNameTextField = new JTextField();
         this.portNameTextField.setPreferredSize(new Dimension(100, 40));
         this.baudrateTextField = new JTextField();
@@ -57,6 +57,9 @@ public class viewMainWindow extends JFrame implements view {
 
         this.pauseButton = new JButton("pause");
         this.pauseButton.setPreferredSize(new Dimension(100, 40));
+
+        this.exportCSVButton = new JButton("Export to csv");
+        this.exportCSVButton.setPreferredSize(new Dimension(100, 40));
 
         this.YscalingSlider = new JSlider();
 
@@ -89,6 +92,17 @@ public class viewMainWindow extends JFrame implements view {
             }
         });
 
+        this.exportCSVButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(graph.isPaused() == false)
+                {
+                    pauseButton.doClick();
+                }
+                graph.simpleDumpToCsv();
+            }
+        });
+
         this.portNameTextField.addActionListener(e -> sourceOfData.setName(portNameTextField.getText()));
         this.baudrateTextField.addActionListener(e -> sourceOfData.setBaudRate(Integer.parseInt(baudrateTextField.getText())));
 
@@ -105,6 +119,7 @@ public class viewMainWindow extends JFrame implements view {
         northPanel.add(this.baudrateTextField);
         northPanel.add(this.applyButton, BorderLayout.EAST);
         northPanel.add(this.pauseButton);
+        northPanel.add(this.exportCSVButton);
 
         //Add stuff to the lower bar of the ui
         JPanel visualPane = new JPanel();

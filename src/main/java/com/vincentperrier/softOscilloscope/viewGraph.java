@@ -19,17 +19,22 @@ package com.vincentperrier.softOscilloscope;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
+import java.io.FileWriter;
 
 public class viewGraph extends JPanel implements view {
     controller controller;
     int scaling = 10;
     boolean isPaused = false;
-
     float[] lastUnpausedPacket = new float[0];
 
     public void pause(boolean newState)
     {
         this.isPaused = newState;
+    }
+    public boolean isPaused()
+    {
+        return this.isPaused;
     }
 
     public viewGraph(controller c) {
@@ -103,4 +108,20 @@ public class viewGraph extends JPanel implements view {
             previousY = currentY;
         }
     }
+
+    public void simpleDumpToCsv()
+    {
+        try {
+            FileWriter dumpfile = new FileWriter("dump.csv");
+            for(float iter: this.lastUnpausedPacket)
+            {
+                dumpfile.write(String.valueOf(iter) + "\n");
+            }
+            dumpfile.close();
+        }catch (Exception e)
+        {
+
+        }
+    }
+
 }

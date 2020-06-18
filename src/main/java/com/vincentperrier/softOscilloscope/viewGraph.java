@@ -22,8 +22,15 @@ import java.awt.*;
 
 public class viewGraph extends JPanel implements view {
     controller controller;
-
     int scaling = 10;
+    boolean isPaused = false;
+
+    float[] lastUnpausedPacket = new float[0];
+
+    public void pause(boolean newState)
+    {
+        this.isPaused = newState;
+    }
 
     public viewGraph(controller c) {
         try {
@@ -53,7 +60,18 @@ public class viewGraph extends JPanel implements view {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        float[] buf = this.controller.getSamples();
+
+        //If the user paused the graph, return
+        float[] buf;
+        if(this.isPaused == false)
+        {
+            buf = this.controller.getSamples();
+            lastUnpausedPacket = buf;
+        }
+        else
+        {
+            buf = lastUnpausedPacket;
+        }
 
         g.setColor(Color.WHITE);
         g.fillRect(0, 0, this.getWidth() - 1, this.getHeight() - 1);
@@ -74,15 +92,15 @@ public class viewGraph extends JPanel implements view {
         g.setColor(Color.BLACK);
         //PaintComponent use reverse coordinates so we need to reverse the samples
         //signs
+
+        float[] amplifiedBuffer = new float[buf.length];
         for (int i = 1; i < buf.length; i++) {
-            buf[i] = -buf[i] * scaling;
+            amplifiedBuffer[i] = -buf[i] * scaling;
             currentX = (i * inter) + padding;
-            currentY = ((int) buf[i] + (this.getHeight() / 2));
+            currentY = ((int) amplifiedBuffer[i] + (this.getHeight() / 2));
             g.drawLine(previousX, previousY, currentX, currentY);
             previousX = currentX;
             previousY = currentY;
         }
-
     }
-
 }

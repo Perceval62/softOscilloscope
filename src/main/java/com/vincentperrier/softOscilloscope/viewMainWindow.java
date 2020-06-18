@@ -33,6 +33,7 @@ public class viewMainWindow extends JFrame implements view {
     input sourceOfData;
 
     JButton applyButton;
+    JButton pauseButton;
 
     JSlider YscalingSlider;
 
@@ -41,11 +42,16 @@ public class viewMainWindow extends JFrame implements view {
         this.graph = new viewGraph(c);
 
         this.portNameTextField = new JTextField();
+        this.portNameTextField.setPreferredSize(new Dimension(100, 40));
         this.baudrateTextField = new JTextField();
+        this.baudrateTextField.setPreferredSize(new Dimension(100, 40));
         this.baudrateTextField.setText("9600");
 
         this.applyButton = new JButton("apply");
-        this.applyButton.setPreferredSize(new Dimension(100, 20));
+        this.applyButton.setPreferredSize(new Dimension(100, 40));
+
+        this.pauseButton = new JButton("pause");
+        this.pauseButton.setPreferredSize(new Dimension(100, 40));
 
         this.YscalingSlider = new JSlider();
 
@@ -54,6 +60,27 @@ public class viewMainWindow extends JFrame implements view {
             public void actionPerformed(ActionEvent e) {
                 sourceOfData.setBaudRate(Integer.parseInt(baudrateTextField.getText()));
                 sourceOfData.setName(portNameTextField.getText());
+            }
+        });
+
+        this.pauseButton.addActionListener(new ActionListener() {
+            String pausetext = new String("pause");
+            String playText= new String("play");
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                if(pauseButton.getText().equals(pausetext))
+                {
+                    graph.pause(true);
+                    pauseButton.setText(playText);
+
+                }
+                else if(pauseButton.getText().equals(playText))
+                {
+                    graph.pause(false);
+                    pauseButton.setText(pausetext);
+
+                }
             }
         });
 
@@ -69,15 +96,16 @@ public class viewMainWindow extends JFrame implements view {
         JLabel serialNameLabel = new JLabel("Com port name:");
         serialNameLabel.setPreferredSize(new Dimension(100, 100));
         northPanel.add(new JLabel("Com port: "), BorderLayout.WEST);
-        portNameTextField.setPreferredSize(new Dimension(100, 20));
         northPanel.add(this.portNameTextField, BorderLayout.CENTER);
         northPanel.add(new JLabel("Baud rate: "));
         northPanel.add(this.baudrateTextField);
         northPanel.add(this.applyButton, BorderLayout.EAST);
+        northPanel.add(this.pauseButton);
 
         //Add stuff to the lower bar of the ui
         JPanel visualPane = new JPanel();
         visualPane.add(new JLabel("Scaling"));
+
         this.YscalingSlider.setMaximum(1);
         this.YscalingSlider.setMaximum(80);
         this.YscalingSlider.setValue(graph.getScaling());
@@ -88,6 +116,7 @@ public class viewMainWindow extends JFrame implements view {
             }
         });
         visualPane.add(this.YscalingSlider);
+
 
         //Add everything to GUI
         this.getContentPane().add(northPanel, BorderLayout.PAGE_START);

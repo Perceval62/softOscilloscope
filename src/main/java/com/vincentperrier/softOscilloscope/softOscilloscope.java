@@ -34,7 +34,6 @@ public class softOscilloscope {
 
     //RunTest
     public static void runExample() {
-        System.out.println("Starting the program");
         modelPacket model = initializeModel();
         controllerPacket controller = new controllerPacket(model);
         try {
@@ -53,7 +52,6 @@ public class softOscilloscope {
 
     //RunTest
     public static void runSerialExample() {
-        System.out.println("Starting the program");
         modelPacket model = initializeModel();
         controllerPacket controller = new controllerPacket(model);
         try {

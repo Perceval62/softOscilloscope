@@ -40,6 +40,11 @@ public class viewMainWindow extends JFrame implements view {
     viewMainWindow(controller c, input in) {
         this.sourceOfData = in;
         this.graph = new viewGraph(c);
+        initializeInterface();
+    }
+
+    private void initializeInterface()
+    {
 
         this.portNameTextField = new JTextField();
         this.portNameTextField.setPreferredSize(new Dimension(100, 40));
@@ -85,7 +90,6 @@ public class viewMainWindow extends JFrame implements view {
         });
 
         this.portNameTextField.addActionListener(e -> sourceOfData.setName(portNameTextField.getText()));
-
         this.baudrateTextField.addActionListener(e -> sourceOfData.setBaudRate(Integer.parseInt(baudrateTextField.getText())));
 
         this.setBounds(0,0 ,1100, 400);
@@ -116,7 +120,6 @@ public class viewMainWindow extends JFrame implements view {
             }
         });
         visualPane.add(this.YscalingSlider);
-
 
         //Add everything to GUI
         this.getContentPane().add(northPanel, BorderLayout.PAGE_START);

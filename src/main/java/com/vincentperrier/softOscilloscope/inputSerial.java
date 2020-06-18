@@ -40,12 +40,10 @@ public class inputSerial implements input {
         {
             name = "";
         }
-
         if(name.contains(" "))
         {
             name = "";
         }
-
         try {
             this.name = name;
             reinitialize();
@@ -88,7 +86,6 @@ public class inputSerial implements input {
 
     private void initialize() throws Exception
     {
-        System.out.println("building port");
         this.p = SerialPort.getCommPort(this.name);
         this.baudRate = baudRate;
         this.name = name;

@@ -17,51 +17,60 @@
 #include <math.h>
 #define WORK (2*M_PI*i/100)
 
-static char samples[1000];
-
 void setup() {
   //Begins a serial communication
-  Serial.begin(9600);
+  Serial.begin(115200);
   pinMode(A0, INPUT);
+  pinMode(A1, INPUT);
+  pinMode(A2, INPUT);
+  pinMode(A3, INPUT);
   pinMode(5, OUTPUT);
 }
 
-const char readSample()
+const char readSample(unsigned int port)
 {
-  const int val = analogRead(A0);
-  const char ret = map(val, 0, 1024,-127, 128);
+  const int val = analogRead(port);
+  const char ret = map(val, 0, 1024, -127, 128);
   return ret;
 }
 
-void loopDummy()
-{
-  // put your main code here, to run repeatedly:
-  char dummySamples[1000];
-  for(int i = 0; i < 1000; i++)
-  {
-    double work = 2*M_PI*i/100;
-    dummySamples[i] = (10 * sin(work)) + 2;
-    Serial.print((char)dummySamples[i]);
-  }
-  delay(1000);
-}
-
-void loopRead()
-{
-  char *const pointer = samples;
-  for(int i = 0; i < 1000; i++)
-  {
-    analogWrite(5, (100 * sin(WORK)) + 2);
-    pointer[i] = readSample();
-  }
-
-  for(int i = 0; i < 1000; i++)
-  {
-    Serial.print((char)pointer[i]);
-  }
-  delay(100);
-}
+#define PACKET_SIZE 1000
 
 void loop() {
-  loopRead();
+
+  while(Serial.available() < 1);
+  const char in = Serial.read();
+
+  const int channel = [&](char input){
+    int ret = A0;
+    switch(input)
+    {
+      case '0':
+        ret = A0;
+        break;
+      case '1':
+        ret = A1;
+        break;
+      case '2':
+        ret = A2;
+        break;
+      case '3':
+        ret = A3;
+        break;
+    }
+    return ret;
+  }(in);
+
+  Serial.flush();
+
+  char packet[PACKET_SIZE];
+  for(unsigned int i = 0; i < PACKET_SIZE; i++)
+  {
+   packet[i] = readSample(channel);
+  }
+
+  for(int i = 0; i < PACKET_SIZE; i++)
+  {
+    Serial.print((char) packet[i]);
+  }
 }

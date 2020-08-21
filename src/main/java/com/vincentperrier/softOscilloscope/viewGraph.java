@@ -27,7 +27,6 @@ public class viewGraph extends JPanel implements view {
     controller controller;
     int scaling = 10;
     boolean isPaused = false;
-    float[] lastUnpausedPacket = new float[0];
 
     Vector<modelPacket> channels = new Vector<>();
 
@@ -48,6 +47,11 @@ public class viewGraph extends JPanel implements view {
             } else {
                 throw new Exception("Cannot assign null reference to object");
             }
+
+            float buf[] = new float[100];
+            for(int i = 0; i < 4; i++) {
+                channels.add(new modelPacket(0, buf));
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -63,6 +67,11 @@ public class viewGraph extends JPanel implements view {
 
     public void update() {
         this.repaint();
+        if(isPaused == false) {
+            for (int i = 0; i < 4; i++) {
+                channels.set(i, controller.getSamples(i));
+            }
+        }
     }
 
     @Override
@@ -70,14 +79,14 @@ public class viewGraph extends JPanel implements view {
         super.paintComponent(g);
 
         int padding = 20;
-        g.setColor(Color.WHITE);
+        g.setColor(Color.BLACK);
         g.fillRect(0, 0, this.getWidth() - 1, this.getHeight() - 1);
         g.setColor(Color.RED);
         g.drawLine(1, (this.getHeight() / 2), this.getWidth()-1, (this.getHeight() / 2));
         g.drawLine(padding, 1, padding, this.getHeight()-1);
 
         for(int i = 0; i < 4; i++) {
-            paintLine(controller.getSamples(i), g);
+            paintLine(channels.elementAt(i), g);
         }
     }
 
@@ -85,10 +94,17 @@ public class viewGraph extends JPanel implements view {
     {
         try {
             FileWriter dumpfile = new FileWriter("dump.csv");
-            for(float iter: this.lastUnpausedPacket)
+
+            float buf1[] = channels.elementAt(0).getPacket();
+            float buf2[] = channels.elementAt(1).getPacket();
+            float buf3[] = channels.elementAt(2).getPacket();
+            float buf4[] = channels.elementAt(3).getPacket();
+
+            for(int i = 0; i < 1000; i++)
             {
-                dumpfile.write(String.valueOf(iter) + "\n");
+                dumpfile.write(buf1[i] + "," + buf2[i] + "," + buf3[i] + "," + buf4[i] + "\n");
             }
+
             dumpfile.close();
         }
         catch (Exception e)
@@ -111,14 +127,16 @@ public class viewGraph extends JPanel implements view {
 
         g.setColor(getChannelColor(channel.getSource()));
 
+        Graphics2D g2 = (Graphics2D) g;
+        g2.setStroke(new BasicStroke(3));
         //PaintComponent use reverse coordinates so we need to reverse the samples
         //signs
         float[] amplifiedBuffer = new float[channel.getPacket().length];
         for (int i = 1; i < channel.getPacket().length; i++) {
-            amplifiedBuffer[i] = (channel.getPacket())[i] * scaling;
-            currentX = i*inter + padding;
+            amplifiedBuffer[i] = -((channel.getPacket())[i] * scaling);
+            currentX = i + padding;
             currentY = ((int) amplifiedBuffer[i] + (this.getHeight() / 2));
-            g.drawLine(previousX, previousY, currentX, currentY);
+            g2.drawLine(previousX, previousY, currentX, currentY);
             previousX = currentX;
             previousY = currentY;
         }

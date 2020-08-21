@@ -140,7 +140,7 @@ public class viewMainWindow extends JFrame implements view {
         this.getContentPane().add(northPanel, BorderLayout.PAGE_START);
         this.getContentPane().add(visualPane, BorderLayout.PAGE_END);
         this.getContentPane().add(graph, BorderLayout.CENTER);
-        this.setTitle("Soft Oscilloscope V 0.1");
+        this.setTitle("Soft Oscilloscope V1.0");
         this.setVisible(true);
     }
 

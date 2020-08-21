@@ -50,7 +50,7 @@ public class viewMainWindow extends JFrame implements view {
         this.portNameTextField.setPreferredSize(new Dimension(100, 40));
         this.baudrateTextField = new JTextField();
         this.baudrateTextField.setPreferredSize(new Dimension(100, 40));
-        this.baudrateTextField.setText("9600");
+        this.baudrateTextField.setText("115200");
 
         this.applyButton = new JButton("apply");
         this.applyButton.setPreferredSize(new Dimension(100, 40));

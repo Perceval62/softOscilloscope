@@ -19,14 +19,17 @@ package com.vincentperrier.softOscilloscope;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
 import java.io.FileWriter;
+import java.util.Vector;
 
 public class viewGraph extends JPanel implements view {
+
     controller controller;
     int scaling = 10;
     boolean isPaused = false;
     float[] lastUnpausedPacket = new float[0];
+
+    Vector<modelPacket> channels = new Vector<>();
 
     public void pause(boolean newState)
     {
@@ -66,46 +69,15 @@ public class viewGraph extends JPanel implements view {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        //If the user paused the graph, return
-        float[] buf;
-        if(this.isPaused == false)
-        {
-            buf = this.controller.getSamples();
-            lastUnpausedPacket = buf;
-        }
-        else
-        {
-            buf = lastUnpausedPacket;
-        }
-
+        int padding = 20;
         g.setColor(Color.WHITE);
         g.fillRect(0, 0, this.getWidth() - 1, this.getHeight() - 1);
-
-        int padding = 20;
-
-        int yOffset = (this.getHeight() / 2);
-        int inter = this.getWidth() / (buf.length);
-        int previousX = padding;
-        int previousY = (int) buf[0] + yOffset;
-
-        int currentX = 0;
-        int currentY = 0;
-
         g.setColor(Color.RED);
         g.drawLine(1, (this.getHeight() / 2), this.getWidth()-1, (this.getHeight() / 2));
         g.drawLine(padding, 1, padding, this.getHeight()-1);
-        g.setColor(Color.BLACK);
 
-        //PaintComponent use reverse coordinates so we need to reverse the samples
-        //signs
-        float[] amplifiedBuffer = new float[buf.length];
-        for (int i = 1; i < buf.length; i++) {
-            amplifiedBuffer[i] = -buf[i] * scaling;
-            currentX = (i * inter) + padding;
-            currentY = ((int) amplifiedBuffer[i] + (this.getHeight() / 2));
-            g.drawLine(previousX, previousY, currentX, currentY);
-            previousX = currentX;
-            previousY = currentY;
+        for(int i = 0; i < 4; i++) {
+            paintLine(controller.getSamples(i), g);
         }
     }
 
@@ -118,10 +90,61 @@ public class viewGraph extends JPanel implements view {
                 dumpfile.write(String.valueOf(iter) + "\n");
             }
             dumpfile.close();
-        }catch (Exception e)
+        }
+        catch (Exception e)
         {
-
+            e.printStackTrace();
         }
     }
 
+    void paintLine(modelPacket channel, Graphics g)
+    {
+        int padding = 20;
+
+        int yOffset = (this.getHeight() / 2);
+        int inter = this.getWidth()/channel.getPacket().length;
+        int previousX = padding;
+        int previousY = (int) channel.getPacket()[0] + yOffset;
+
+        int currentX = 0;
+        int currentY = 0;
+
+        g.setColor(getChannelColor(channel.getSource()));
+
+        //PaintComponent use reverse coordinates so we need to reverse the samples
+        //signs
+        float[] amplifiedBuffer = new float[channel.getPacket().length];
+        for (int i = 1; i < channel.getPacket().length; i++) {
+            amplifiedBuffer[i] = (channel.getPacket())[i] * scaling;
+            currentX = i*inter + padding;
+            currentY = ((int) amplifiedBuffer[i] + (this.getHeight() / 2));
+            g.drawLine(previousX, previousY, currentX, currentY);
+            previousX = currentX;
+            previousY = currentY;
+        }
+    }
+
+    public static Color getChannelColor(int channel)
+    {
+        Color ret = Color.BLACK;
+        switch (channel)
+        {
+            case 0:
+                ret = Color.GREEN;
+                break;
+            case 1:
+                ret =  Color.BLUE;
+                break;
+            case 2:
+                ret = Color.ORANGE;
+                break;
+            case 3:
+                ret = Color.PINK;
+                break;
+            default:
+                ret = Color.BLACK;
+                break;
+        }
+        return ret;
+    }
 }

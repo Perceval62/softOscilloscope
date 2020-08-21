@@ -16,19 +16,29 @@
 */
 package com.vincentperrier.softOscilloscope;
 
-public class controllerPacket implements controller {
+import java.util.Vector;
 
-    modelPacket model;
+public class controllerPacket extends abstractModel implements controller{
 
-    public controllerPacket(modelPacket e) {
-        this.model = e;
+    Vector<modelPacket> channels = new Vector<>();
+
+
+    public controllerPacket() {
+
     }
 
-    public void treatIncomingSamples(float input[]) {
-        model = model.withSamples(input);
+    public void pushPacket(Vector<modelPacket> incoming) {
+        channels = incoming;
+        this.notifyObservers();
     }
 
-    public float[] getSamples() {
-        return this.model.getPacket();
+    public modelPacket getSamples(int channel) {
+        if(channels.isEmpty() || channel > 3)
+        {
+            float buf[] = new float[100];
+            return new modelPacket(channel, buf);
+        }
+
+        return channels.elementAt(channel);
     }
 }

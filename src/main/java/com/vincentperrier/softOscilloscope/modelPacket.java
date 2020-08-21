@@ -20,33 +20,24 @@ public class modelPacket extends abstractModel {
 
     private float samplesBuffer[];
 
-    public modelPacket(float array[]) {
+    int source = 0x00;
+
+    public modelPacket(int source, float array[]) {
         super();
         if(array != null)
         {
             this.samplesBuffer = array.clone();
         }
+
+        if(source >= 0)
+        {
+            this.source = source;
+        }
     }
+
+    public int getSource(){return this.source;}
 
     public float[] getPacket() {
         return samplesBuffer.clone();
-    }
-
-    public modelPacket withSamples(float array[]) {
-        try {
-            if (array != null) {
-                modelPacket ret = new modelPacket(array);
-                for (view iter : this.listOfViews) {
-                    ret.addObserver(iter);
-                }
-                this.notifyObservers();
-                return ret;
-            } else {
-                throw new Exception("Cannot set the internal buffer to a null reference");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 }

@@ -23,41 +23,13 @@ import javax.swing.*;
  */
 public class softOscilloscope {
 
-    //Initialize basic data
-    public static modelPacket initializeModel() {
-        float array[] = new float[100];
-        for (int i = 0; i < 100; i++) {
-            array[i] = 0.0f;
-        }
-        return new modelPacket(array);
-    }
-
-    //RunTest
-    public static void runExample() {
-        modelPacket model = initializeModel();
-        controllerPacket controller = new controllerPacket(model);
-        try {
-            inputDummy in = new inputDummy(controller);
-            viewMainWindow view = new viewMainWindow(controller, (input) in);
-            model.addObserver(view);
-            Thread t1 = new Thread(() -> {
-                while (true) in.loopRead();
-            });
-            t1.run();
-        }catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-    }
-
     //RunTest
     public static void runSerialExample() {
-        modelPacket model = initializeModel();
-        controllerPacket controller = new controllerPacket(model);
         try {
-            inputSerial testSerial = new inputSerial("", 9600, controller);
+            controllerPacket controller = new controllerPacket();
+            inputSerial testSerial = new inputSerial("", 115200, controller);
             viewMainWindow view = new viewMainWindow(controller, testSerial);
-            model.addObserver(view);
+            controller.addObserver(view);
             while (true)
             {
                 testSerial.loopRead();
@@ -83,5 +55,4 @@ public class softOscilloscope {
         //softOscilloscope.runExample();
         runSerialExample();
     }
-
 }

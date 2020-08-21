@@ -31,37 +31,16 @@ class modelPacketTest {
 
     @Test
     void getPacket() {
-        modelPacket test1 = new modelPacket(originalArray);
+        modelPacket test1 = new modelPacket(0x00, originalArray);
         Assertions.assertArrayEquals(originalArray, test1.getPacket());
 
-        modelPacket test2 = new modelPacket(testArray);
+        modelPacket test2 = new modelPacket(0x00, testArray);
         Assertions.assertArrayEquals(testArray, test2.getPacket());
 
         assertThrows(Exception.class, () -> {
-            modelPacket test3 = new modelPacket(invalidArray);
+            modelPacket test3 = new modelPacket(0x00, invalidArray);
             Assertions.assertArrayEquals(invalidArray, test3.getPacket());
             Assertions.assertNotNull(test3.getPacket());
-        });
-    }
-
-    @Test
-    void withSamples() {
-        modelPacket test = new modelPacket(zeroArray);
-        Assertions.assertArrayEquals(zeroArray, test.getPacket());
-
-        test = test.withSamples(originalArray);
-        Assertions.assertArrayEquals(originalArray, test.getPacket());
-
-        test = test.withSamples(testArray);
-        Assertions.assertArrayEquals(testArray, test.getPacket());
-
-        final modelPacket cpy = test;
-        Assertions.assertThrows(Exception.class, () -> {
-            modelPacket tmp = cpy.withSamples(invalidArray);
-            if(tmp.getPacket() == null)
-            {
-                fail();
-            }
         });
     }
 }

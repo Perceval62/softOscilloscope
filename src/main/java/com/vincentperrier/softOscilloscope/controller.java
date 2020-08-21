@@ -16,8 +16,10 @@
 */
 package com.vincentperrier.softOscilloscope;
 
-public interface controller {
-    public void treatIncomingSamples(float input[]);
+import java.util.Vector;
 
-    public float[] getSamples();
+public interface controller {
+    public void pushPacket(Vector<modelPacket> incoming);
+
+    public modelPacket getSamples(int channel);
 }

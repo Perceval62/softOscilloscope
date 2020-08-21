@@ -119,19 +119,25 @@ public class inputSerial implements input {
                 return;
             }
 
-            while (this.p.bytesAvailable() < 1000)
+            Vector<modelPacket> ret = new Vector<>();
+            for(int channel = 0; channel < 4; channel++)
             {
-                //A loop that does nothing uses way too much cpu.
-                Thread.sleep(10);
-            };
-            byte input[] = new byte[this.p.bytesAvailable()];
+                byte c[] = {(byte) ('0' + channel)};
+                p.writeBytes(c, 1);
+                while(p.bytesAvailable() < 1000);
 
-            this.p.readBytes(input, input.length);
-            float packet[] = new float[input.length];
-            for (int i = 0; i < input.length; i++) {
-                packet[i] = input[i] / 10.0f;
+                byte arr[] = new byte[1000];
+                float buf[] = new float[1000];
+                p.readBytes(arr, arr.length);
+
+                for(int i = 0; i < 1000; i++)
+                {
+                    buf[i] = (float) (arr[i] / 10);
+                }
+                modelPacket out = new modelPacket(channel, buf);
+                ret.add(out);
             }
-            this.controller.treatIncomingSamples(packet);
+            controller.pushPacket(ret);
         }catch (Exception e)
         {
             e.printStackTrace();

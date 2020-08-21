@@ -5,6 +5,7 @@ import com.vincentperrier.softOscilloscope.*;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Executable;
+import java.util.Vector;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -14,13 +15,13 @@ class inputSerialTest {
     void setName() {
         controller dummyController = new controller() {
             @Override
-            public void treatIncomingSamples(float[] input) {
+            public void pushPacket(Vector<modelPacket> incoming) {
 
             }
 
             @Override
-            public float[] getSamples() {
-                return new float[0];
+            public modelPacket getSamples(int channel) {
+                return new modelPacket(0, new float[0]);
             }
         };
 

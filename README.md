@@ -26,8 +26,8 @@ Consider looking at the user guide for more informations on how to run the softw
 
 At the current time:
 * a user can choose which serial port to take the data from.
-* the application displays samples read from the A0 analog pin on the arduino.
-* the application displays the samples fed in via serial port.
+* the application displays samples read from the analog ports A0-A4.
+* a user can pause and dump the current graph to a csv file.
 * the user can enhance details with a Y scaling slider.
 
 ## Dependencies

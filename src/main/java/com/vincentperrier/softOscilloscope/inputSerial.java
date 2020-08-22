@@ -124,9 +124,11 @@ public class inputSerial implements input {
             {
                 byte c[] = {(byte) ('0' + channel)};
                 p.writeBytes(c, 1);
-                while(p.bytesAvailable() < 1000);
-
+                while(p.bytesAvailable() < 1000) {
+                    Thread.sleep(10);
+                }
                 byte arr[] = new byte[1000];
+
                 float buf[] = new float[1000];
                 p.readBytes(arr, arr.length);
 

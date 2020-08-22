@@ -119,23 +119,27 @@ public class inputSerial implements input {
                 return;
             }
 
-            Vector<modelPacket> ret = new Vector<>();
+            Vector<modelPacket> ret = new Vector<>(4);
             for(int channel = 0; channel < 4; channel++)
             {
+                byte arr[] = new byte[1000];
+                float buf[] = new float[1000];
                 byte c[] = {(byte) ('0' + channel)};
                 p.writeBytes(c, 1);
+
                 while(p.bytesAvailable() < 1000) {
                     Thread.sleep(10);
                 }
-                byte arr[] = new byte[1000];
-
-                float buf[] = new float[1000];
-                p.readBytes(arr, arr.length);
+                if (p.readBytes(arr, arr.length) == -1)
+                {
+                    return;
+                }
 
                 for(int i = 0; i < 1000; i++)
                 {
-                    buf[i] = (float) (arr[i] / 10);
+                    buf[i] = (arr[i] / 10.0f);
                 }
+
                 modelPacket out = new modelPacket(channel, buf);
                 ret.add(out);
             }

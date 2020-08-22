@@ -120,21 +120,20 @@ public class viewGraph extends JPanel implements view {
         int yOffset = (this.getHeight() / 2);
         int inter = this.getWidth()/channel.getPacket().length;
         int previousX = padding;
-        int previousY = (int) channel.getPacket()[0] + yOffset;
+        int previousY = (int) -channel.getPacket()[0]*scaling + yOffset;
 
         int currentX = 0;
         int currentY = 0;
 
-        g.setColor(getChannelColor(channel.getSource()));
-
         Graphics2D g2 = (Graphics2D) g;
+        g2.setColor(getChannelColor(channel.getSource()));
         g2.setStroke(new BasicStroke(3));
         //PaintComponent use reverse coordinates so we need to reverse the samples
         //signs
         float[] amplifiedBuffer = new float[channel.getPacket().length];
-        for (int i = 1; i < channel.getPacket().length; i++) {
+        for (int i = 300; i < channel.getPacket().length; i++) {
             amplifiedBuffer[i] = -((channel.getPacket())[i] * scaling);
-            currentX = i + padding;
+            currentX = (i - 300) + padding;
             currentY = ((int) amplifiedBuffer[i] + (this.getHeight() / 2));
             g2.drawLine(previousX, previousY, currentX, currentY);
             previousX = currentX;
